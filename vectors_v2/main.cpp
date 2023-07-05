@@ -28,6 +28,9 @@ struct XY {
     int y = 0;
     int z = 0;
 };
+struct R3vector {
+
+};
 
 class Helper {
 public:
@@ -106,9 +109,8 @@ class Interface {
 private:
     Command command;
     PixelMemory pixelMem;
-    groundedVector vectorPerametersPointBased;
+    R3vector vectorPerametersPointBased;
     vector<pixel> out;
-    Opperations opp;
     //
     ScreenText screenText;
     string tempText;
@@ -116,34 +118,18 @@ private:
     int size = 0;
 public:
     vector<pixel> call() {
-        command.start();
-        out.clear();
-        if (command.clear()) {
-            pixelMem.clearPixelMemory();
-        }
-        //gather possible draw command parsed
-        vectorPerametersPointBased = command.directionVector();
-
-        if (command.opperations().size() != 0) {
-            vector<groundedVector> vectorPerametersPointBased;
-            vectorPerametersPointBased = opp.returnGroundedVcetors(command.opperations());
-            for (int i = 0; i < vectorPerametersPointBased.size(); i++) {
-                vector<pixel> temp = pixelMem.getPixelCache(vectorPerametersPointBased[i]);
-                out.insert(out.end(), temp.begin(), temp.end());
-            }
-            if (!(out.size() == 0)) {
-                return out;
-            }
-        }
-        if (vectorPerametersPointBased.empty()) {
-            vectorPerametersPointBased = command.vectorPerametersPointBased();
-        }
-        //base (draw one vector)
-        out = pixelMem.getPixelCache(vectorPerametersPointBased);
-        return out;
+        ///todo
+        //screeen refresh 
+        return vector<pixel>();
     }
     LPSTR screenTextOut() {
-        tempText = screenText.update(out[out.size() - 1]);
+        if (out.size() - 1 < 0) { 
+            return const_cast<char*>(tempText.c_str()); 
+        }
+        else {
+            cout << "hello";
+            tempText = screenText.update(out[out.size() - 1]);
+        }
         currentText = const_cast<char*>(tempText.c_str());
         return const_cast<char*>(tempText.c_str());
     }
